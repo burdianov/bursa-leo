@@ -1,0 +1,19 @@
+language: ruby
+rvm:
+- 2.1.5
+- rbx
+env:
+- DB=postgresql
+script:
+- RAILS_ENV=test bundle exec rake db:migrate --trace
+- bundle exec rake
+before_script:
+- cp config/database.yml.sample config/database.yml
+- psql -c 'create database bursa-leo_test' -U postgres
+deploy:
+  provider: heroku
+  api_key:
+    secure: wcwDw2O0QOeFu0bf4w2Nnzn6U72y1CmiPFgcF7QhHw3UIujRuv+tv2hDm4WzQFdXjepRFy2ni9kj+JleqLiG/hdWLLP1muk1vpGuHVdPH4U6sqW7Uw4R2DgP1ryKPQ3ezMtpBqO3AXX7WONqV+SQhtcuXu9K/0OxE4rds4TRxEyYlBxaRbiYslE4tr6ubhQ6+V6O/4bKyT526JNGjEiws8qHqL+Vt2Dpy2PaLnWO5+WPkXLzcyjzk5lxHMEVADFaXDWQHtVIT87633dZp+k5bX+iBo02Iq2Za3Na/Y9Py8QNEZp4sjTUooN3B1TtPIQEdu3VeDLlPhtxlLgriDPyvPvda7hDbjYgnIkTogE9QLJFQ5MpDlN2gJs04Sc8XqbHbekbvs/IYhsalhg3rYrNCsT6Yi9emrJqEnMl2epPkQp/aw7hWdX4pvwGWC+hNeBL+Q15gqi4aQmZSNETD1COtyk2ifIjop6kowRZnQ8Ss80yYixu739n/+FM5MSU0Vv14rRR81nPQLKglzFKcKWXUTg8+HKNsaWGfXnbUF532u09kZZ6iSif3jCQYiitqyl8lGfGcQ7KdSbF8xAKiLUBbzeeUehzKksF0qlwY7C0MevUUf3QdmuFWkBq3NN+KMxXgyBHf90NUMUCtVbGf5KY9In6FPbThWn2topwDOeN8oc=
+  app: bursa-leo
+  on:
+    repo: burdianov/bursa-leo
